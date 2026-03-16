@@ -119,7 +119,6 @@ export default function Dashboard() {
   }
 
   const requireKey = () => {
-    if (!apiKey) { setShowKeyModal(true); return false }
     return true
   }
 
