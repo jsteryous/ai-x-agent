@@ -139,12 +139,17 @@ export default function Dashboard() {
     const newDrafts = []
     for (const a of articles) {
       try {
+        const articleText = await fetchArticle(a.url)
+        const context = articleText
+          ? `Full article:\n${articleText}`
+          : `Summary: ${a.summary}`
+
         const text = await callClaude(
           apiKey,
           DRAFT_PROMPT,
-          `Article: "${a.title}"\nContext: ${a.summary}\n\nWrite one tweet (max 280 chars). Output only the tweet text, nothing else.`
+          `Article: "${a.title}"\n\n${context}\n\nWrite one tweet (max 280 chars). Output only the tweet text, nothing else. If not worth tweeting, output SKIP.`
         )
-        if (text) {
+        if (text && text !== 'SKIP') {
           newDrafts.push({
             id: Date.now() + Math.random(),
             text,
