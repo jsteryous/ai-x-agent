@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
-import { callClaude, parseJSON, storage } from '../lib/api'
+import { callClaude, parseJSON, storage, fetchArticle } from '../lib/api'
 import {
   DRAFT_PROMPT,
   TRENDING_PROMPT,
@@ -139,10 +139,7 @@ export default function Dashboard() {
     const newDrafts = []
     for (const a of articles) {
       try {
-        const articleText = await fetchArticle(a.url)
-        const context = articleText
-          ? `Full article:\n${articleText}`
-          : `Summary: ${a.summary}`
+        const context = `Summary: ${a.summary}`
 
         const text = await callClaude(
           apiKey,
