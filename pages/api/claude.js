@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing system or message' })
     }
   
-    const apiKey = req.headers['x-api-key']
+    const apiKey = req.headers['x-api-key'] || process.env.ANTHROPIC_API_KEY
     if (!apiKey) {
       return res.status(401).json({ error: 'Missing API key' })
     }
